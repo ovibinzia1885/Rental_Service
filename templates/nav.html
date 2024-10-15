@@ -1,0 +1,65 @@
+{% load static %}
+<div class="container d-flex align-items-center">
+
+      <h1 class="logo mr-auto"><a href="{% url 'home' %}">Rental Service BD</a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+      <nav class="nav-menu d-none d-lg-block">
+        <ul>
+          <li class="active"><a href="">Home</a></li>
+          <li><a href="{% url 'vehicle' %}">Vehicle</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'service' %}">Services</a></li>
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+          {% if request.user.is_authenticated and request.user.is_superuser %}
+            <li><a href="{% url 'customer' %}">Customer</a></li>
+            <li><a href="{% url 'car_owner' %}">Car Owner</a></li>
+            <li><a href="{% url 'super_admin_vehicle_list' %}">Vehicle List</a></li>
+              <li><a href="{% url 'list_vehicle_type' %}">Vehicle Type</a></li>
+              <li class="drop-down"><a href="">My Dashboard</a>
+                <ul>
+                  <li><a href="{% url 'profile' %}">My Profile</a></li>
+                   <li><a href="{% url 'password_change' %}">Password Change</a></li>
+                  <li><a href="{% url 'list_location_from_to' %}">Location From To</a></li>
+                  <li><a href="{% url 'list_distance' %}">Distance</a></li>
+                  <li><a href="{% url 'subscribe_list' %}">Subscribe</a></li>
+                  <li><a href="{% url 'contact_list' %}">Contact</a></li>
+                </ul>
+              </li>
+              <li>
+                   <a href="{% url 'logout' %}"> Sign Out</a>
+              </li>
+            {% elif request.user.is_authenticated and request.user.user_type == 'customer' %}
+            <li><a href="{% url 'customer_own_reservation_list' %}">My Reservation</a></li>
+              <li class="drop-down"><a href="">My Dashboard</a>
+                <ul>
+                 <li><a href="{% url 'profile' %}">My Profile</a></li>
+                  <li><a href="{% url 'password_change' %}">Password Change</a></li>
+                </ul>
+              </li>
+              <li>
+                   <a href="{% url 'logout' %}"> Sign Out</a>
+              </li>
+            {% elif request.user.is_authenticated and request.user.user_type == 'car_owner' %}
+              <li>
+                   <a href="{% url 'vehicle_list' %}"> My Vehicle</a>
+              </li>
+              <li class="drop-down"><a href="">My Dashboard</a>
+                <ul>
+                  <li><a href="{% url 'profile' %}">My Profile</a></li>
+                   <li><a href="{% url 'password_change' %}">Password Change</a></li>
+                </ul>
+              </li>
+              <li>
+                   <a href="{% url 'logout' %}"> Sign Out</a>
+              </li>
+
+          {% else %}
+           <li><a href="{% url 'login' %}">Login</a></li>
+            <li><a href="{% url 'sign_up' %}">Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </nav><!-- .nav-menu -->
+
+    </div>

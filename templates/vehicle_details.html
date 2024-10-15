@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<section id="departments" class="departments">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Vehicle {{ vehicle.car_name }} Details</h2>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-12 mt-4 mt-lg-0">
+            <div class="tab-content">
+              <div class="tab-pane active show">
+                <div class="row">
+                  <div class="col-lg-8 details order-2 order-lg-1">
+                    <h3>Name : {{ vehicle.car_name }}</h3>
+                    <h3>Model : {{ vehicle.model_number }}</h3>
+                    <h3>Car Owner : {{ vehicle.car_owner }}</h3>
+                    <h3>Car Type : {{ vehicle.vehicle_type }}</h3>
+                    <h4>Per KM Price : {{ vehicle.price }} Taka</h4>
+                    <p>
+                      <a href="{% url 'customer_booking_reservation' vehicle.id %}" class="btn btn-primary">Reservation</a>
+                    </p>
+                  </div>
+                  <div class="col-lg-4 text-center order-1 order-lg-2">
+                    <img src="{{ vehicle.image.url }}" alt="" class="img-fluid">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End Departments Section -->
+
+{% endblock content %}

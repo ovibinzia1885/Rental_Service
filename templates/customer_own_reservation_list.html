@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+    <section class="breadcrumbs">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2> Reservation List Page</h2>
+          <ol>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li>Reservation List</li>
+          </ol>
+        </div>
+      </div>
+    </section><!-- End Breadcrumbs Section -->
+    <br>
+    <div>
+
+    </div>
+              {% if not reservation %}
+                <div>No reservation Info Here! </div>
+              {% else %}
+                  <table class="table" style="width:100%">
+                      <thead>
+                          <tr>
+                              <th>S. No.</th>
+                              <th>Car Name</th>
+                              <th>Model Number</th>
+                              <th>Car Type</th>
+                              <th>Price In Per KM </th>
+                              <th>Reservation User Name</th>
+                              <th>Reservation Phone Number</th>
+                              <th>Date</th>
+                              <th>From</th>
+                              <th>To</th>
+                              <th>Total Price</th>
+                              <th>Approval Status</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for reservation in reservation %}
+                              <tr>
+                                  <th scope="row">{{ forloop.counter }}</th>
+                                  <th>
+                                      {{ reservation.vehicle_name.car_name }}
+                                  </th>
+                                  <th>{{ reservation.vehicle_name.model_number }}</th>
+                                  <th>{{ reservation.vehicle_name.vehicle_type }}</th>
+                                  <th>{{ reservation.vehicle_name.price }}</th>
+                                  <th>
+                                      {{ reservation.customer_name }}
+                                  </th> <th>
+                                      {{ reservation.customer_name.phone_number }}
+                                  </th>
+                                  <th>{{ reservation.date }}</th>
+                                  <th>{{ reservation.location_from }}</th>
+                                  <th>{{ reservation.location_to }}</th>
+                                  <th>{{ reservation.total_price }}</th>
+                                  <th>{{ reservation.approval }}</th>
+                              </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+              {% endif %}
+{% endblock content %}

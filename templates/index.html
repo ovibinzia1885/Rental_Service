@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<br>
+    <section id="doctors" class="doctors">
+      <div class="container">
+        <div class="section-title">
+          <h2>Vehicle</h2>
+        </div>
+        <div class="row">
+            {% for vehicle in vehicle %}
+                <div class="col-lg-6">
+                    <div class="member d-flex align-items-start">
+                          <div class="pic">
+                              <a href="{% url 'vehicle_details' vehicle.id %}">
+                                <img src="{{ vehicle.image.url }}" class="img-fluid" alt="" height="200" width="200">
+                              </a>
+                          </div>
+
+                          <div class="member-info">
+                                <h4>
+                                    <a href="{% url 'vehicle_details' vehicle.id %}">
+                                        {{ vehicle.car_name }}
+                                    </a>
+                                </h4>
+                                <p> Owner Name : {{ vehicle.car_owner }}</p>
+                                <p>Model Number : {{ vehicle.model_number }}</p>
+                                <p>Car Type : {{ vehicle.vehicle_type }}</p>
+                                <p>Per KM Price : {{ vehicle.price }} Taka</p>
+                                <p>
+                                   <a href="{% url 'customer_booking_reservation' vehicle.id %}" class="btn btn-primary">Reservation</a>
+                                </p>
+                          </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+      </div>
+    </section>
+    <section id="services" class="services">
+      <div class="container">
+        <div class="section-title">
+          <h2>Vehicle Type</h2>
+        </div>
+        <div class="row">
+            {% for vehicle_type in vehicle_type %}
+                <a href="{% url 'vehicle_type_vehicle' vehicle_type.id %}">
+                  <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
+                    <div class="icon-box">
+                      <div class="icon"><i class="icofont-disabled"></i></div>
+                      <h4><a href="{% url 'vehicle_type_vehicle' vehicle_type.id %}">{{ vehicle_type.name }}</a></h4>
+                    </div>
+                  </div>
+                </a>
+            {% endfor %}
+        </div>
+      </div>
+    </section><!-- End Services Section -->
+
+
+{% endblock content %}

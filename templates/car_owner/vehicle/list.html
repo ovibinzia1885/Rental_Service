@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+    <section class="breadcrumbs">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Vehicle List Page</h2>
+          <ol>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li>Vehicle List</li>
+          </ol>
+        </div>
+      </div>
+    </section><!-- End Breadcrumbs Section -->
+    <br>
+
+     <form method="get">
+         <div class="well">
+             <div class="row">
+                 <div class="form-group col-sm-4 col-md-3">
+                     {{ MyFilter.form.car_name.label_tag }}
+                     {% render_field MyFilter.form.car_name class="form-control" %}
+                 </div>
+                 <div class="form-group col-sm-4 col-md-3">
+                     {{ MyFilter.form.model_number.label_tag }}
+                     {% render_field MyFilter.form.model_number class="form-control" %}
+                 </div>
+                 <div class="form-group col-sm-4 col-md-3">
+                     {{ MyFilter.form.vehicle_type.label_tag }}
+                     {% render_field MyFilter.form.vehicle_type class="form-control" %}
+                 </div>
+                 <div class="form-group col-sm-4 col-md-3">
+                     <br>
+                     <button type="submit" class="btn btn-primary">
+                         <span class="glyphicon glyphicon-search"></span> Search
+                     </button>
+                 </div>
+             </div>
+         </div>
+     </form>
+    <div>
+        <a href="{% url 'vehicle_create' %}" class="btn btn-primary"> Create Vehicle</a>
+    </div>
+              {% if not vehicle %}
+                <div>No Vehicle Info Here! </div>
+              {% else %}
+                  <table class="table" style="width:100%">
+                      <thead>
+                          <tr>
+                              <th>S. No.</th>
+                              <th>image</th>
+                              <th>Car Name</th>
+                              <th>Model Number</th>
+                              <th>Car Type</th>
+                              <th>Price in Km</th>
+                              <th>Vehicle Approval Status</th>
+                              <th>Update</th>
+                              <th>Delete</th>
+                              <th>Booking List</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for vehicle in vehicle %}
+                              <tr>
+                                  <th scope="row">{{ forloop.counter }}</th>
+                                  <th>
+                                      <img src="{{vehicle.image.url}}" width="50" height="50">
+                                  </th>
+                                  <th>{{ vehicle.car_name }}</th>
+                                  <th>{{ vehicle.model_number }}</th>
+                                  <th>{{ vehicle.vehicle_type }}</th>
+                                  <th>{{ vehicle.price }}</th>
+                                  <th>{{ vehicle.approval }}</th>
+                                  <th>
+                                      <a href="{% url 'vehicle_update' vehicle.id %}" class="btn btn-success">Update</a>
+                                  </th>
+                                  <th>
+                                      <a href="{% url 'vehicle_delete' vehicle.id %}" class="btn btn-danger">Delete</a>
+                                  </th>
+                                  <th>
+                                      <a href="{% url 'reservation_list' vehicle.id %}" class="btn btn-primary">Reservation List</a>
+                                  </th>
+                              </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+                  {% if vehicle.has_other_pages %}
+                      <nav aria-label="event-pagination" id="pagination">
+                          <ul class="pagination">
+                              {% if vehicle.has_previous %}
+                              <li class="page-item"><a href="?page={{ vehicle.previous_page_number }}" class="page-link">&laquo;</a></li>
+                              {% else %}
+                              <li class="page-item disabled" ><span class="page-link">&laquo;</span></li>
+                              {% endif %}
+                              {% for i in vehicle.paginator.page_range %}
+                              {% if vehicle.number == i %}
+                              <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                              {% else %}
+                              <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                              {% endif %}
+                              {% endfor %}
+                              {% if vehicle.has_next %}
+                              <li class="page-item"><a class="page-link" href="?page={{ vehicle.next_page_number }}">&raquo;</a></li>
+                              {% else %}
+                              <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                              {% endif %}
+                          </ul>
+                      </nav>
+                  {% endif %}
+              {% endif %}
+{% endblock content %}

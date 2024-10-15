@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+    <section class="breadcrumbs">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Car Owner List Page</h2>
+          <ol>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li>Car Owner List</li>
+          </ol>
+        </div>
+      </div>
+    </section><!-- End Breadcrumbs Section -->
+    <br>
+
+              <form method="get">
+                  <div class="well">
+                      <h4 style="margin-top: 0">Filter</h4>
+                      <div class="row">
+                          <div class="form-group col-sm-4 col-md-3">
+                              {{ MyFilter.form.username.label_tag }}
+                              {% render_field MyFilter.form.username class="form-control" %}
+                          </div>
+                          <div class="form-group col-sm-4 col-md-3">
+                              {{ MyFilter.form.email.label_tag }}
+                              {% render_field MyFilter.form.email class="form-control" %}
+                          </div>
+                          <div class="form-group col-sm-4 col-md-3">
+                              {{ MyFilter.form.phone_number.label_tag }}
+                              {% render_field MyFilter.form.phone_number class="form-control" %}
+                          </div>
+                          <div class="form-group col-sm-4 col-md-3">
+                              <br>
+                              <button type="submit" class="btn btn-primary">
+                                  <span class="glyphicon glyphicon-search"></span> Search
+                              </button>
+                          </div>
+                      </div>
+
+                  </div>
+              </form>
+              {% if not car_owner %}
+                <div>No Car Owner Info Here! </div>
+              {% else %}
+              <table class="table" id="datatable-buttons"  style="width:100%">
+                  <thead>
+                      <tr>
+                          <th>S. No.</th>
+                          <th>Image</th>
+                          <th>User Name</th>
+                          <th>Email</th>
+                          <th>Phone Number  </th>
+                          <th>User Type  </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for car_owner in car_owner %}
+                          <tr>
+                              <th scope="row">{{ forloop.counter }}</th>
+                              <th>
+                                  <img src="{{ car_owner.image.url }}" height="50" width="50">
+                              </th>
+                              <th>
+                                  <a href="{% url 'car_owner_own_vehicle' car_owner.id %}">{{ car_owner.username }}</a>
+                                  {% if comment %}
+                                   # ekhane car owner e all approved post dekhate hobe
+                                  {% endif %}
+
+                              </th>
+                              <td>{{ car_owner.email }}</td>
+                              <td>{{ car_owner.phone_number }}</td>
+                              <td>{{ car_owner.user_type }}</td>
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+              {% if car_owner.has_other_pages %}
+              <nav aria-label="event-pagination" id="pagination">
+                  <ul class="pagination">
+                      {% if car_owner.has_previous %}
+                      <li class="page-item"><a href="?page={{ car_owner.previous_page_number }}" class="page-link">&laquo;</a></li>
+                      {% else %}
+                      <li class="page-item disabled" ><span class="page-link">&laquo;</span></li>
+                      {% endif %}
+                      {% for i in car_owner.paginator.page_range %}
+                      {% if car_owner.number == i %}
+                      <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span></li>
+                      {% else %}
+                      <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                      {% endif %}
+                      {% endfor %}
+                      {% if car_owner.has_next %}
+                      <li class="page-item"><a class="page-link" href="?page={{ car_owner.next_page_number }}">&raquo;</a></li>
+                      {% else %}
+                      <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                      {% endif %}
+                  </ul>
+              </nav>
+              {% endif %}
+              {% endif %}
+
+
+
+{% endblock content %}
